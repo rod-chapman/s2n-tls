@@ -286,6 +286,14 @@ int main(int argc, char **argv)
     uint8_t e[4] = { 1, 2, 3, 4 };
     uint8_t f[4] = { 1, 2, 3, 5 };
 
+    /* Tests for s2n_constant_time_equals_strict()   */
+    /* Cases must meet that function's pre-condition */
+    EXPECT_TRUE(s2n_constant_time_equals(a, b, sizeof(a)));
+    EXPECT_FALSE(s2n_constant_time_equals(a, c, sizeof(a)));
+    EXPECT_TRUE(s2n_constant_time_equals(a, f, 3));
+    EXPECT_FALSE(s2n_constant_time_equals(a, f, 4));
+
+    /* Tests for s2n_constant_time_equals()          */
     EXPECT_TRUE(s2n_constant_time_equals(a, b, sizeof(a)));
     EXPECT_FALSE(s2n_constant_time_equals(a, c, sizeof(a)));
     EXPECT_FALSE(s2n_constant_time_equals(a, NULL, sizeof(a)));

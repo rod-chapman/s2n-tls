@@ -78,6 +78,30 @@ bool s2n_constant_time_equals(const uint8_t *a, const uint8_t *b, const uint32_t
     return (xor == 0);
 }
 
+bool s2n_constant_time_equals_strict(const uint8_t *const a,
+        const uint8_t *const b,
+        const uint32_t len)
+{
+    S2N_PUBLIC_INPUT(a);
+    S2N_PUBLIC_INPUT(b);
+    S2N_PUBLIC_INPUT(len);
+
+    bool arrays_match = true;
+    /* iterate over each byte in the slices */
+    for (size_t i = 0; i < len; i++)
+        CONTRACT_ASSIGNS(i, arrays_match)
+    CONTRACT_INVARIANT(i <= len)
+    CONTRACT_INVARIANT(arrays_match == __CPROVER_forall { size_t j; (j >= 0 && j < i) ==> (a[j] == b[j]) })
+    {
+        arrays_match = arrays_match && (a[i] == b[i]);
+    }
+
+    /* Substitute i = len into the loop invariant to get... */
+    //    CONTRACT_ASSERT(arrays_match ==
+    //		    __CPROVER_forall { size_t j; (j >= 0 && j < len) ==> (a[j] == b[j]) });
+    return arrays_match;
+}
+
 /**
  * Given arrays "dest" and "src" of length "len", conditionally copy "src" to "dest"
  * The execution time of this function is independent of the values

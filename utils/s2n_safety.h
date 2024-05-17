@@ -47,6 +47,17 @@ bool s2n_in_test();
 /* Returns 1 if a and b are equal, in constant time */
 bool s2n_constant_time_equals(const uint8_t* a, const uint8_t* b, const uint32_t len);
 
+/* Returns true if a and b are equal. Execution time may depend on len */
+/* but not on the value of the data denoted by a or b                  */
+bool s2n_constant_time_equals_strict(const uint8_t* const a,
+        const uint8_t* const b,
+        const uint32_t len)
+        CONTRACT_REQUIRES(a != NULL && __CPROVER_is_fresh(a, len))
+                CONTRACT_REQUIRES(b != NULL && __CPROVER_is_fresh(b, len))
+                        CONTRACT_REQUIRES(len >= 1)
+        /* Ensures is optional, but included as an illustration of partial correctness proof */
+        CONTRACT_ENSURES(CONTRACT_RETURN_VALUE == __CPROVER_forall { size_t i; (i >= 0 && i < len) ==> (a[i] == b[i]) });
+
 /* Copy src to dst, or don't copy it, in constant time */
 int s2n_constant_time_copy_or_dont(uint8_t* dst, const uint8_t* src, uint32_t len, uint8_t dont);
 
