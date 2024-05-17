@@ -139,6 +139,7 @@ void *s2n_ensure_memmove_trace(void *to, const void *from, size_t size);
     #define CONTRACT_ASSIGNS_ERR(...) CONTRACT_ASSIGNS(__VA_ARGS__, _s2n_debug_info, s2n_errno)
     #define CONTRACT_REQUIRES(...)    __CPROVER_requires(__VA_ARGS__)
     #define CONTRACT_ENSURES(...)     __CPROVER_ensures(__VA_ARGS__)
+    #define CONTRACT_ASSERT(...)     __CPROVER_assert(__VA_ARGS__)
     #define CONTRACT_INVARIANT(...)   __CPROVER_loop_invariant(__VA_ARGS__)
     #define CONTRACT_RETURN_VALUE     (__CPROVER_return_value)
 #else
@@ -146,6 +147,7 @@ void *s2n_ensure_memmove_trace(void *to, const void *from, size_t size);
     #define CONTRACT_ASSIGNS_ERR(...)
     #define CONTRACT_REQUIRES(...)
     #define CONTRACT_ENSURES(...)
+    #define CONTRACT_ASSERT(...)
     #define CONTRACT_INVARIANT(...)
     #define CONTRACT_RETURN_VALUE
 #endif
