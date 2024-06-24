@@ -27,6 +27,7 @@ PROOF_SOURCES += $(PROOF_SOURCE)/make_common_datastructures.c
 PROOF_SOURCES += $(PROOF_STUB)/mlock.c
 PROOF_SOURCES += $(PROOF_STUB)/munlock.c
 PROOF_SOURCES += $(PROOF_STUB)/sysconf.c
+PROOF_SOURCES += $(PROOF_STUB)/s2n_ensure.c
 PROOF_SOURCES += $(PROOF_STUB)/s2n_calculate_stacktrace.c
 
 PROJECT_SOURCES += $(SRCDIR)/crypto/s2n_dhe.c
@@ -38,9 +39,6 @@ PROJECT_SOURCES += $(SRCDIR)/utils/s2n_safety.c
 PROJECT_SOURCES += $(SRCDIR)/utils/s2n_result.c
 
 REMOVE_FUNCTION_BODY += __CPROVER_file_local_s2n_mem_c_s2n_mem_cleanup_impl
-REMOVE_FUNCTION_BODY += s2n_free
-REMOVE_FUNCTION_BODY += s2n_realloc
-REMOVE_FUNCTION_BODY += s2n_stuffer_wipe
 
 UNWINDSET += s2n_stuffer_write_network_order.10:9
 
