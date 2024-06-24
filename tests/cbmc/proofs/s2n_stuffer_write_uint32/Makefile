@@ -23,6 +23,8 @@ HARNESS_FILE = $(HARNESS_ENTRY).c
 PROOF_SOURCES += $(PROOFDIR)/$(HARNESS_FILE)
 PROOF_SOURCES += $(PROOF_SOURCE)/cbmc_utils.c
 PROOF_SOURCES += $(PROOF_SOURCE)/make_common_datastructures.c
+PROOF_SOURCES += $(PROOF_STUB)/munlock.c
+PROOF_SOURCES += $(PROOF_STUB)/mlock.c
 
 PROJECT_SOURCES += $(SRCDIR)/stuffer/s2n_stuffer.c
 PROJECT_SOURCES += $(SRCDIR)/stuffer/s2n_stuffer_network_order.c
@@ -33,8 +35,7 @@ PROJECT_SOURCES += $(SRCDIR)/utils/s2n_safety.c
 PROJECT_SOURCES += $(SRCDIR)/utils/s2n_result.c
 
 # We abstract these functions because manual inspection demonstrates they are unreachable.
-REMOVE_FUNCTION_BODY += s2n_blob_slice
-REMOVE_FUNCTION_BODY += s2n_stuffer_wipe
+REMOVE_FUNCTION_BODY +=
 
 UNWINDSET += s2n_stuffer_write_network_order.10:$(shell echo $$((1 + $(SIZEOF_UINT32))))
 

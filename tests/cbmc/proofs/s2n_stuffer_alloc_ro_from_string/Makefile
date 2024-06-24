@@ -24,6 +24,8 @@ HARNESS_FILE = $(HARNESS_ENTRY).c
 PROOF_SOURCES += $(PROOFDIR)/$(HARNESS_FILE)
 PROOF_SOURCES += $(PROOF_SOURCE)/cbmc_utils.c
 PROOF_SOURCES += $(PROOF_SOURCE)/make_common_datastructures.c
+PROOF_SOURCES += $(PROOF_STUB)/mlock.c
+PROOF_SOURCES += $(PROOF_STUB)/munlock.c
 
 PROJECT_SOURCES += $(SRCDIR)/stuffer/s2n_stuffer.c
 PROJECT_SOURCES += $(SRCDIR)/stuffer/s2n_stuffer_text.c
@@ -35,11 +37,6 @@ PROJECT_SOURCES += $(SRCDIR)/utils/s2n_safety.c
 
 # We abstract these functions because manual inspection demonstrates they are unreachable.
 REMOVE_FUNCTION_BODY += __CPROVER_file_local_s2n_mem_c_s2n_mem_cleanup_impl
-REMOVE_FUNCTION_BODY += s2n_blob_slice
-REMOVE_FUNCTION_BODY += s2n_free
-REMOVE_FUNCTION_BODY += s2n_stuffer_resize
-REMOVE_FUNCTION_BODY += s2n_add_overflow
-REMOVE_FUNCTION_BODY += s2n_blob_zero
 
 UNWINDSET += strlen.0:$(call addone,$(MAX_STRING_LEN))
 

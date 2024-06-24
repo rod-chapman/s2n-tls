@@ -44,7 +44,6 @@ PROJECT_SOURCES += $(SRCDIR)/utils/s2n_safety.c
 
 # We abstract this function because manual inspection demonstrates it is unreachable.
 REMOVE_FUNCTION_BODY += s2n_stuffer_resize
-REMOVE_FUNCTION_BODY += s2n_stuffer_rewrite
 REMOVE_FUNCTION_BODY += s2n_add_overflow
 
 UNWINDSET += strlen.0:5 # size of S2N_PEM_PKCS1_RSA_PRIVATE_KEY
