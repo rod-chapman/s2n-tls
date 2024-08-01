@@ -62,7 +62,7 @@ static S2N_RESULT s2n_drbg_bits(struct s2n_drbg *drbg, struct s2n_blob *out)
     RESULT_ENSURE_REF(out);
 
     struct s2n_blob value = { 0 };
-    RESULT_GUARD_POSIX(s2n_blob_init(&value, drbg->v, sizeof(drbg->v)));
+    s2n_blob_init_partial(&value, drbg->v, sizeof(drbg->v));
     uint32_t block_aligned_size = out->size - (out->size % S2N_DRBG_BLOCK_SIZE);
 
     /* Per NIST SP800-90A 10.2.1.2: */
