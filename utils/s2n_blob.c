@@ -23,6 +23,18 @@
 #include "error/s2n_errno.h"
 #include "utils/s2n_safety.h"
 
+#include <stdio.h>
+
+static size_t s2n_blob_init_count = 0;
+static size_t s2n_blob_slice_count = 0;
+
+void s2n_blob_report_counts()
+{
+  fprintf (stderr, "\ns2n_blob_init_count is %zu\n", s2n_blob_init_count);
+  fprintf (stderr, "s2n_blob_slice_count is %zu\n", s2n_blob_slice_count);
+}
+
+
 S2N_RESULT s2n_blob_validate(const struct s2n_blob *b)
 {
     RESULT_ENSURE_REF(b);
@@ -35,14 +47,19 @@ S2N_RESULT s2n_blob_validate(const struct s2n_blob *b)
     return S2N_RESULT_OK;
 }
 
+void s2n_blob_init_partial(struct s2n_blob *b, uint8_t *data, uint32_t size)
+{
+    *b = (struct s2n_blob){ .data = data, .size = size, .allocated = 0, .growable = 0 };
+}
+
 int s2n_blob_init(struct s2n_blob *b, uint8_t *data, uint32_t size)
 {
     POSIX_ENSURE_REF(b);
     POSIX_ENSURE(S2N_MEM_IS_READABLE(data, size), S2N_ERR_SAFETY);
-    *b = (struct s2n_blob){ .data = data, .size = size, .allocated = 0, .growable = 0 };
-    POSIX_POSTCONDITION(s2n_blob_validate(b));
+    s2n_blob_init_partial(b, data, size);
     return S2N_SUCCESS;
 }
+
 
 int s2n_blob_zero(struct s2n_blob *b)
 {
@@ -64,6 +81,7 @@ int s2n_blob_slice(const struct s2n_blob *b, struct s2n_blob *slice, uint32_t of
     slice->size = size;
     slice->growable = 0;
     slice->allocated = 0;
+    s2n_blob_slice_count++;
 
     POSIX_POSTCONDITION(s2n_blob_validate(slice));
     return S2N_SUCCESS;
