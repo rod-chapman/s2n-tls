@@ -211,7 +211,8 @@ S2N_RESULT s2n_map_lookup(const struct s2n_map *map, struct s2n_blob *key, struc
 
         /* We found a match */
         struct s2n_blob entry_value = map->table[slot].value;
-        RESULT_GUARD_POSIX(s2n_blob_init(value, entry_value.data, entry_value.size));
+	//        RESULT_GUARD_POSIX(s2n_blob_init(value, entry_value.data, entry_value.size));
+        s2n_blob_init_partial(value, entry_value.data, entry_value.size);
 
         *key_found = true;
 

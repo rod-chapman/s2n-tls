@@ -213,9 +213,11 @@ static S2N_RESULT s2n_init_drbgs(void)
     uint8_t s2n_public_drbg[] = "s2n public drbg";
     uint8_t s2n_private_drbg[] = "s2n private drbg";
     struct s2n_blob public = { 0 };
-    RESULT_GUARD_POSIX(s2n_blob_init(&public, s2n_public_drbg, sizeof(s2n_public_drbg)));
+    //    RESULT_GUARD_POSIX(s2n_blob_init(&public, s2n_public_drbg, sizeof(s2n_public_drbg)));
+    s2n_blob_init_partial(&public, s2n_public_drbg, sizeof(s2n_public_drbg));
     struct s2n_blob private = { 0 };
-    RESULT_GUARD_POSIX(s2n_blob_init(&private, s2n_private_drbg, sizeof(s2n_private_drbg)));
+    //    RESULT_GUARD_POSIX(s2n_blob_init(&private, s2n_private_drbg, sizeof(s2n_private_drbg)));
+    s2n_blob_init_partial(&private, s2n_private_drbg, sizeof(s2n_private_drbg));
 
     RESULT_ENSURE(pthread_once(&s2n_per_thread_rand_state_key_once, s2n_drbg_make_rand_state_key) == 0, S2N_ERR_DRBG);
     RESULT_ENSURE_EQ(pthread_key_create_result, 0);
@@ -469,7 +471,8 @@ S2N_RESULT s2n_public_random(int64_t bound, uint64_t *output)
 
     while (1) {
         struct s2n_blob blob = { 0 };
-        RESULT_GUARD_POSIX(s2n_blob_init(&blob, (void *) &r, sizeof(r)));
+	//        RESULT_GUARD_POSIX(s2n_blob_init(&blob, (void *) &r, sizeof(r)));
+        s2n_blob_init_partial(&blob, (void *) &r, sizeof(r));
         RESULT_GUARD(s2n_get_public_random_data(&blob));
 
         /* Imagine an int was one byte and UINT_MAX was 256. If the
