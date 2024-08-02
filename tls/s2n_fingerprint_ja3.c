@@ -35,7 +35,7 @@ static S2N_RESULT s2n_fingerprint_ja3_digest(struct s2n_fingerprint_hash *hash,
     RESULT_GUARD(s2n_fingerprint_hash_digest(hash, digest_bytes, sizeof(digest_bytes)));
 
     struct s2n_blob digest = { 0 };
-    RESULT_GUARD_POSIX(s2n_blob_init(&digest, digest_bytes, sizeof(digest_bytes)));
+    s2n_blob_init_partial(&digest, digest_bytes, sizeof(digest_bytes));
     RESULT_GUARD(s2n_stuffer_write_hex(out, &digest));
 
     return S2N_RESULT_OK;

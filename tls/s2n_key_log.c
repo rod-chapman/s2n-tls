@@ -110,8 +110,8 @@ S2N_RESULT s2n_key_log_tls13_secret(struct s2n_connection *conn, const struct s2
     RESULT_GUARD_POSIX(s2n_stuffer_alloc(&output, len));
 
     struct s2n_blob client_random = { 0 };
-    RESULT_GUARD_POSIX(s2n_blob_init(&client_random, conn->handshake_params.client_random,
-            sizeof(conn->handshake_params.client_random)));
+    s2n_blob_init_partial(&client_random, conn->handshake_params.client_random,
+            sizeof(conn->handshake_params.client_random));
 
     RESULT_GUARD_POSIX(s2n_stuffer_write_bytes(&output, label, label_size));
     RESULT_GUARD(s2n_stuffer_write_hex(&output, &client_random));
@@ -149,12 +149,12 @@ S2N_RESULT s2n_key_log_tls12_secret(struct s2n_connection *conn)
     RESULT_GUARD_POSIX(s2n_stuffer_alloc(&output, len));
 
     struct s2n_blob client_random = { 0 };
-    RESULT_GUARD_POSIX(s2n_blob_init(&client_random, conn->handshake_params.client_random,
-            sizeof(conn->handshake_params.client_random)));
+    s2n_blob_init_partial(&client_random, conn->handshake_params.client_random,
+            sizeof(conn->handshake_params.client_random));
 
     struct s2n_blob master_secret = { 0 };
-    RESULT_GUARD_POSIX(s2n_blob_init(&master_secret, conn->secrets.version.tls12.master_secret,
-            sizeof(conn->secrets.version.tls12.master_secret)));
+    s2n_blob_init_partial(&master_secret, conn->secrets.version.tls12.master_secret,
+            sizeof(conn->secrets.version.tls12.master_secret));
 
     RESULT_GUARD_POSIX(s2n_stuffer_write_bytes(&output, label, label_size));
     RESULT_GUARD(s2n_stuffer_write_hex(&output, &client_random));

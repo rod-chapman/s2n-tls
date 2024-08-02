@@ -84,11 +84,11 @@ struct s2n_connection *s2n_connection_new(s2n_mode mode)
 
     /* Allocate the fixed-size stuffers */
     blob = (struct s2n_blob){ 0 };
-    PTR_GUARD_POSIX(s2n_blob_init(&blob, conn->alert_in_data, S2N_ALERT_LENGTH));
+    s2n_blob_init_partial(&blob, conn->alert_in_data, S2N_ALERT_LENGTH);
     PTR_GUARD_POSIX(s2n_stuffer_init(&conn->alert_in, &blob));
 
     blob = (struct s2n_blob){ 0 };
-    PTR_GUARD_POSIX(s2n_blob_init(&blob, conn->ticket_ext_data, S2N_TLS12_TICKET_SIZE_IN_BYTES));
+    s2n_blob_init_partial(&blob, conn->ticket_ext_data, S2N_TLS12_TICKET_SIZE_IN_BYTES);
     PTR_GUARD_POSIX(s2n_stuffer_init(&conn->client_ticket_to_decrypt, &blob));
 
     /* Allocate long term hash and HMAC memory */
@@ -99,7 +99,7 @@ struct s2n_connection *s2n_connection_new(s2n_mode mode)
      * in _wipe will fix that
      */
     blob = (struct s2n_blob){ 0 };
-    PTR_GUARD_POSIX(s2n_blob_init(&blob, conn->header_in_data, S2N_TLS_RECORD_HEADER_LENGTH));
+    s2n_blob_init_partial(&blob, conn->header_in_data, S2N_TLS_RECORD_HEADER_LENGTH);
     PTR_GUARD_POSIX(s2n_stuffer_init(&conn->header_in, &blob));
     PTR_GUARD_POSIX(s2n_stuffer_growable_alloc(&conn->out, 0));
     PTR_GUARD_POSIX(s2n_stuffer_growable_alloc(&conn->buffer_in, 0));
@@ -1757,12 +1757,12 @@ S2N_RESULT s2n_connection_get_sequence_number(struct s2n_connection *conn,
 
     switch (mode) {
         case S2N_CLIENT:
-            RESULT_GUARD_POSIX(s2n_blob_init(seq_num, conn->secure->client_sequence_number,
-                    sizeof(conn->secure->client_sequence_number)));
+            s2n_blob_init_partial(seq_num, conn->secure->client_sequence_number,
+                    sizeof(conn->secure->client_sequence_number));
             break;
         case S2N_SERVER:
-            RESULT_GUARD_POSIX(s2n_blob_init(seq_num, conn->secure->server_sequence_number,
-                    sizeof(conn->secure->server_sequence_number)));
+            s2n_blob_init_partial(seq_num, conn->secure->server_sequence_number,
+                    sizeof(conn->secure->server_sequence_number));
             break;
         default:
             RESULT_BAIL(S2N_ERR_SAFETY);

@@ -121,7 +121,7 @@ int s2n_fingerprint_get_hash(struct s2n_fingerprint *fingerprint,
     POSIX_GUARD(s2n_hash_reset(&fingerprint->hash));
 
     struct s2n_stuffer output_stuffer = { 0 };
-    POSIX_GUARD(s2n_blob_init(&output_stuffer.blob, output, max_output_size));
+    s2n_blob_init_partial(&output_stuffer.blob, output, max_output_size);
 
     POSIX_GUARD_RESULT(method->fingerprint(client_hello, &hash, &output_stuffer));
 
@@ -159,7 +159,7 @@ int s2n_fingerprint_get_raw(struct s2n_fingerprint *fingerprint,
     POSIX_ENSURE(client_hello, S2N_ERR_INVALID_STATE);
 
     struct s2n_stuffer output_stuffer = { 0 };
-    POSIX_GUARD(s2n_blob_init(&output_stuffer.blob, output, max_output_size));
+    s2n_blob_init_partial(&output_stuffer.blob, output, max_output_size);
     struct s2n_fingerprint_hash hash = {
         .buffer = &output_stuffer,
     };
@@ -262,9 +262,9 @@ int s2n_client_hello_get_fingerprint_hash(struct s2n_client_hello *ch, s2n_finge
      * We need to translate back to the raw bytes.
      */
     struct s2n_stuffer bytes_out = { 0 };
-    POSIX_GUARD(s2n_blob_init(&bytes_out.blob, output, max_output_size));
+    s2n_blob_init_partial(&bytes_out.blob, output, max_output_size);
     struct s2n_blob hex_in = { 0 };
-    POSIX_GUARD(s2n_blob_init(&hex_in, hex_hash, hex_hash_size));
+    s2n_blob_init_partial(&hex_in, hex_hash, hex_hash_size);
     POSIX_GUARD_RESULT(s2n_stuffer_read_hex(&bytes_out, &hex_in));
     *output_size = s2n_stuffer_data_available(&bytes_out);
 

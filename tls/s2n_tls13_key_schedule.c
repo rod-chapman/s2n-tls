@@ -67,7 +67,7 @@ static S2N_RESULT s2n_tls13_key_schedule_get_keying_material(
      **/
     struct s2n_blob secret = { 0 };
     uint8_t secret_bytes[S2N_TLS13_SECRET_MAX_LEN] = { 0 };
-    RESULT_GUARD_POSIX(s2n_blob_init(&secret, secret_bytes, S2N_TLS13_SECRET_MAX_LEN));
+    s2n_blob_init_partial(&secret, secret_bytes, S2N_TLS13_SECRET_MAX_LEN);
     RESULT_GUARD(s2n_tls13_secrets_get(conn, secret_type, mode, &secret));
 
     /**
@@ -139,8 +139,8 @@ S2N_RESULT s2n_tls13_key_schedule_set_key(struct s2n_connection *conn, s2n_extra
 
     struct s2n_blob iv = { 0 };
     struct s2n_blob key = { 0 };
-    RESULT_GUARD_POSIX(s2n_blob_init(&iv, implicit_iv_data, S2N_TLS13_FIXED_IV_LEN));
-    RESULT_GUARD_POSIX(s2n_blob_init(&key, key_bytes, sizeof(key_bytes)));
+    s2n_blob_init_partial(&iv, implicit_iv_data, S2N_TLS13_FIXED_IV_LEN);
+    s2n_blob_init_partial(&key, key_bytes, sizeof(key_bytes));
     RESULT_GUARD(s2n_tls13_key_schedule_get_keying_material(
             conn, secret_type, mode, &iv, &key));
 

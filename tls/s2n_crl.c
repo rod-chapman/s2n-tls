@@ -35,7 +35,7 @@ int s2n_crl_load_pem(struct s2n_crl *crl, uint8_t *pem, size_t len)
     POSIX_ENSURE(crl->crl == NULL, S2N_ERR_INVALID_ARGUMENT);
 
     struct s2n_blob pem_blob = { 0 };
-    POSIX_GUARD(s2n_blob_init(&pem_blob, pem, len));
+    s2n_blob_init_partial(&pem_blob, pem, len);
 
     struct s2n_stuffer pem_stuffer = { 0 };
     POSIX_GUARD(s2n_stuffer_init(&pem_stuffer, &pem_blob));

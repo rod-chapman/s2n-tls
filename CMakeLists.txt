@@ -134,7 +134,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES SOVERSION ${VERSION_MAJOR})
 
 set(CMAKE_C_FLAGS_DEBUGOPT "")
 
-target_compile_options(${PROJECT_NAME} PRIVATE -pedantic -std=gnu99 -Wall -Wimplicit -Wunused -Wcomment -Wchar-subscripts
+target_compile_options(${PROJECT_NAME} PRIVATE -pedantic -std=gnu99 -Wimplicit -Wcomment -Wchar-subscripts
         -Wuninitialized -Wshadow -Wcast-align -Wwrite-strings -Wno-deprecated-declarations -Wno-unknown-pragmas -Wformat-security
         -Wno-missing-braces -Wsign-compare -Wno-strict-prototypes -Wa,--noexecstack
 )
@@ -509,7 +509,7 @@ if (BUILD_TESTING)
             )
         endif()
         target_compile_options(${test_case_name} PRIVATE 
-                -Wall -Wimplicit -Wunused -Wcomment -Wchar-subscripts -Wuninitialized 
+                -Wimplicit -Wcomment -Wchar-subscripts -Wuninitialized 
                 -Wshadow  -Wcast-align -Wwrite-strings -Wformat-security
                 -Wno-deprecated-declarations -Wno-unknown-pragmas -Wno-deprecated 
                 -fPIC -D_POSIX_C_SOURCE=200809L -std=gnu99)
@@ -552,7 +552,7 @@ if (BUILD_TESTING)
             target_link_libraries(${benchmark_name} PUBLIC ${PROJECT_NAME} testss2n benchmark::benchmark)
 
             # Based off the flags in tests/benchmark/Makefile
-            target_compile_options(${benchmark_name} PRIVATE -pedantic -Wall -Werror -Wunused -Wcomment -Wchar-subscripts
+            target_compile_options(${benchmark_name} PRIVATE -pedantic -Werror -Wcomment -Wchar-subscripts
                     -Wuninitialized -Wshadow -Wcast-qual -Wcast-align -Wwrite-strings -Wno-deprecated-declarations
                     -Wno-unknown-pragmas -Wformat-security -Wno-missing-braces -fvisibility=hidden -Wno-unreachable-code
                     -Wno-unused-but-set-variable)
