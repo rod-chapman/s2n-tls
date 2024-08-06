@@ -14,6 +14,7 @@
  */
 
 #include <assert.h>
+#include <limits.h>
 #include <cbmc_proof/cbmc_utils.h>
 #include <cbmc_proof/make_common_datastructures.h>
 
@@ -29,7 +30,7 @@ void s2n_stuffer_read_hex_harness()
 
     struct s2n_blob *hex_in = cbmc_allocate_s2n_blob();
     __CPROVER_assume(s2n_result_is_ok(s2n_blob_validate(hex_in)));
-    __CPROVER_assume(s2n_blob_is_bounded(hex_in, MAX_BLOB_SIZE));
+    __CPROVER_assume(s2n_blob_is_bounded(hex_in, UINT_MAX));
 
     struct s2n_stuffer old_output = *output;
     struct store_byte_from_buffer output_saved_byte = { 0 };
