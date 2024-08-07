@@ -24,9 +24,14 @@ HARNESS_FILE = $(HARNESS_ENTRY).c
 FUNCTION_NAME = $(PROOF_UID)
 APPLY_LOOP_CONTRACTS=on
 USE_DYNAMIC_FRAMES=1
-CBMCFLAGS=--smt2
+
+# Use standard SAT backend, not SMT
+EXTERNAL_SAT_SOLVER=
+#CBMCFLAGS=--bitwuzla
+
+CBMC_OBJECT_BITS = 10
+
 VERBOSE=on
-#CBMC_OBJECT_BITS = 10
 
 PROOF_SOURCES += $(PROOFDIR)/$(HARNESS_FILE)
 PROOF_SOURCES += $(PROOF_SOURCE)/cbmc_utils.c
@@ -35,6 +40,7 @@ PROOF_SOURCES += $(PROOF_STUB)/s2n_calculate_stacktrace.c
 PROOF_SOURCES += $(PROOF_STUB)/mlock.c
 PROOF_SOURCES += $(PROOF_STUB)/munlock.c
 PROOF_SOURCES += $(PROOF_STUB)/madvise.c
+PROOF_SOURCES += $(PROOF_STUB)/darwin_check_fd_set_overflow.c
 
 PROJECT_SOURCES += $(SRCDIR)/stuffer/s2n_stuffer_hex.c
 PROJECT_SOURCES += $(SRCDIR)/stuffer/s2n_stuffer.c
