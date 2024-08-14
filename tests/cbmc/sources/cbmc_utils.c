@@ -121,7 +121,7 @@ void save_byte_from_blob(const struct s2n_blob *blob, struct store_byte_from_buf
     save_byte_from_array(blob->data, blob->size, storage);
 }
 
-int nondet_compare(const void *const a, const void *const b)
+int unpredictable_compare(const void *const a, const void *const b)
 {
     assert(a != NULL);
     assert(b != NULL);
@@ -146,7 +146,7 @@ int uninterpreted_compare(const void *const a, const void *const b)
     return rval;
 }
 
-bool nondet_equals(const void *const a, const void *const b)
+bool unpredictable_equals(const void *const a, const void *const b)
 {
     assert(a != NULL);
     assert(b != NULL);
@@ -176,7 +176,7 @@ bool uninterpreted_equals_assert_inputs_nonnull(const void *const a, const void 
     return uninterpreted_equals(a, b);
 }
 
-uint64_t nondet_hasher(const void *a)
+uint64_t unpredictable_hasher(const void *a)
 {
     assert(a != NULL);
     return nondet_uint64_t();
@@ -193,7 +193,7 @@ uint64_t uninterpreted_hasher(const void *a)
 
 bool uninterpreted_predicate_fn(uint8_t value);
 
-void nondet_s2n_mem_init()
+void unpredictable_s2n_mem_init()
 {
     if (nondet_bool()) { s2n_mem_init(); }
 }

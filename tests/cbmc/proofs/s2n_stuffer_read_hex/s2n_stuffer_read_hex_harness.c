@@ -23,7 +23,7 @@
 
 void s2n_stuffer_read_hex_harness()
 {
-    nondet_s2n_mem_init();
+    unpredictable_s2n_mem_init();
 
     struct s2n_stuffer *output = cbmc_allocate_s2n_stuffer();
     __CPROVER_assume(s2n_result_is_ok(s2n_stuffer_validate(output)));

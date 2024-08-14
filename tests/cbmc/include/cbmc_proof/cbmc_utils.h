@@ -180,7 +180,7 @@ void free_rc_keys_from_hash_state(struct rc_keys_from_hash_state *storage);
 /**
  * Standard stub function to compare two items.
  */
-int nondet_compare(const void *const a, const void *const b);
+int unpredictable_compare(const void *const a, const void *const b);
 
 /**
  * Standard stub function to compare two items.
@@ -190,7 +190,7 @@ int uninterpreted_compare(const void *const a, const void *const b);
 /**
  * Standard stub function to compare two items.
  */
-bool nondet_equals(const void *const a, const void *const b);
+bool unpredictable_equals(const void *const a, const void *const b);
 
 /**
  * Standard stub function to compare two items.
@@ -206,7 +206,7 @@ bool uninterpreted_equals_assert_inputs_nonnull(const void *const a, const void 
 /**
  * Standard stub function to hash one item.
  */
-uint64_t nondet_hasher(const void *a);
+uint64_t unpredictable_hasher(const void *a);
 
 /**
  * Standard stub function to hash one item.
@@ -221,4 +221,4 @@ bool uninterpreted_predicate_fn(uint8_t value);
 /**
  * Non-deterministically set initialized (in s2n_mem) to true.
  */
-void nondet_s2n_mem_init();
+void unpredictable_s2n_mem_init();
