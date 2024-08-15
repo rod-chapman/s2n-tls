@@ -24,6 +24,7 @@ HARNESS_FILE = $(HARNESS_ENTRY).c
 FUNCTION_NAME = $(PROOF_UID)
 APPLY_LOOP_CONTRACTS=on
 USE_DYNAMIC_FRAMES=1
+NONDET_STATIC=--nondet-static-exclude _s2n_debug_info --nondet-static-exclude s2n_mem_init_cb
 
 # Use standard SAT backend, not SMT
 EXTERNAL_SAT_SOLVER=
@@ -31,7 +32,9 @@ EXTERNAL_SAT_SOLVER=
 
 CBMC_OBJECT_BITS = 10
 
+EXPORT_FILE_LOCAL_SYMBOLS=
 VERBOSE=on
+
 
 PROOF_SOURCES += $(PROOFDIR)/$(HARNESS_FILE)
 PROOF_SOURCES += $(PROOF_SOURCE)/cbmc_utils.c
@@ -42,6 +45,7 @@ PROOF_SOURCES += $(PROOF_STUB)/munlock.c
 PROOF_SOURCES += $(PROOF_STUB)/madvise.c
 PROOF_SOURCES += $(PROOF_STUB)/darwin_check_fd_set_overflow.c
 
+PROJECT_SOURCES += $(SRCDIR)/error/s2n_errno.c
 PROJECT_SOURCES += $(SRCDIR)/stuffer/s2n_stuffer_hex.c
 PROJECT_SOURCES += $(SRCDIR)/stuffer/s2n_stuffer.c
 PROJECT_SOURCES += $(SRCDIR)/utils/s2n_blob.c
