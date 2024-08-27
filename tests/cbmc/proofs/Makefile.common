@@ -4,7 +4,7 @@
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
 
-CBMC_STARTER_KIT_VERSION = CBMC starter kit 2.10+
+CBMC_STARTER_KIT_VERSION = CBMC starter kit 2.11
 
 ################################################################
 # The CBMC Starter Kit depends on the files Makefile.common and
@@ -267,7 +267,7 @@ CBMCFLAGS += $(CBMC_FLAG_FLUSH)
 # CBMC 6.0.0 enables all standard checks by default, which can make coverage analysis
 # very slow. See https://github.com/diffblue/cbmc/issues/8389
 # For now, we disable these checks when generating coverage info.
-COVERFLAGS ?= --no-standard-checks
+COVERFLAGS ?= --no-standard-checks --malloc-may-fail --malloc-fail-null
 
 # CBMC flags used for property checking
 
@@ -464,7 +464,7 @@ endif
 # The default unwind should only be used in DFCC mode without loop contracts.
 # When loop contracts are applied, we only unwind specified loops.
 # If any loops remain after loop contracts have been applied, CBMC might try
-# to unwind the program indefinetly, because we do not pass default unwind
+# to unwind the program indefinitely, because we do not pass default unwind
 # (i.e., --unwind 1) to CBMC when in DFCC mode.
 # We must not use a default unwind command in DFCC mode, because contract instrumentation
 # introduces loops encoding write set inclusion checks that must be dynamically unwound during
