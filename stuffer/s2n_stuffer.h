@@ -21,8 +21,10 @@
 #include <stdlib.h>
 #include <sys/uio.h>
 
+#include "error/s2n_errno.h"
 #include "utils/s2n_blob.h"
 #include "utils/s2n_result.h"
+#include "utils/s2n_ensure.h"
 
 #define S2N_MIN_STUFFER_GROWTH_IN_BYTES 1024
 
@@ -164,7 +166,9 @@ int s2n_stuffer_copy(struct s2n_stuffer *from, struct s2n_stuffer *to, uint32_t 
  * "FF" == 255 or [ 0xff ]
  * "0001" == 1 or [ 0x00, 0x01 ]
  */
-S2N_RESULT s2n_stuffer_read_hex(struct s2n_stuffer *bytes_out, const struct s2n_blob *hex_in);
+S2N_RESULT s2n_stuffer_read_hex(struct s2n_stuffer *bytes_out, const struct s2n_blob *hex_in)
+CONTRACT_ASSIGNS_ERR(__CPROVER_object_whole(bytes_out));
+
 S2N_RESULT s2n_stuffer_write_hex(struct s2n_stuffer *hex_out, const struct s2n_blob *bytes_in);
 S2N_RESULT s2n_stuffer_read_uint8_hex(struct s2n_stuffer *stuffer, uint8_t *u);
 S2N_RESULT s2n_stuffer_write_uint8_hex(struct s2n_stuffer *stuffer, uint8_t u);
