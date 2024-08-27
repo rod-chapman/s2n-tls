@@ -24,7 +24,10 @@ HARNESS_FILE = $(HARNESS_ENTRY).c
 FUNCTION_NAME = $(PROOF_UID)
 APPLY_LOOP_CONTRACTS=on
 USE_DYNAMIC_FRAMES=1
-NONDET_STATIC=--nondet-static-exclude _s2n_debug_info --nondet-static-exclude s2n_mem_init_cb
+NONDET_STATIC = --nondet-static-exclude _s2n_debug_info
+NONDET_STATIC += --nondet-static-exclude s2n_mem_init_cb
+NONDET_STATIC += --nondet-static-exclude s2n_mem_malloc_cb
+NONDET_STATIC += --nondet-static-exclude s2n_mem_free_cb
 
 # Use standard SAT backend, not SMT
 EXTERNAL_SAT_SOLVER=
@@ -53,5 +56,8 @@ PROJECT_SOURCES += $(SRCDIR)/utils/s2n_ensure.c
 PROJECT_SOURCES += $(SRCDIR)/utils/s2n_mem.c
 PROJECT_SOURCES += $(SRCDIR)/utils/s2n_result.c
 PROJECT_SOURCES += $(SRCDIR)/utils/s2n_safety.c
+
+UNWINDSET += s2n_stuffer_read_hex.6:1
+UNWINDSET += s2n_stuffer_read_hex.7:1
 
 include ../Makefile.common

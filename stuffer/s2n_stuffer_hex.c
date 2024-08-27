@@ -58,7 +58,7 @@ S2N_RESULT s2n_stuffer_read_hex(struct s2n_stuffer *bytes_out, const struct s2n_
     uint8_t *in = hex_in->data;
 
     for (size_t i = 0; i < bytes_size; i++)
-    CONTRACT_ASSIGNS(i, __CPROVER_object_upto(out, bytes_size))
+    CONTRACT_ASSIGNS_ERR(i, __CPROVER_object_upto(out, bytes_size))
     CONTRACT_INVARIANT(i <= bytes_size)
     CONTRACT_DECREASES(bytes_size - i)
     {
