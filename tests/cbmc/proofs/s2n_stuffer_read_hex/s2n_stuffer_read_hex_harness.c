@@ -30,7 +30,7 @@ void s2n_stuffer_read_hex_harness()
 
     struct s2n_blob *output = cbmc_allocate_s2n_blob();
     __CPROVER_assume(s2n_result_is_ok(s2n_blob_validate(output)));
-    __CPROVER_assume(s2n_blob_is_bounded(output, MAX_BLOB_SIZE - 1));
+    __CPROVER_assume(s2n_blob_is_bounded(output, UINT_MAX));
 
     struct s2n_stuffer old_input = *input;
     struct s2n_blob old_output = *output;
